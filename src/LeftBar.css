@@ -1,0 +1,44 @@
+.option:hover {
+  background-color: #e8f5fe;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #00aced;
+  transition: color 100ms ease-out;
+}
+@media screen and (min-width: 729px) {
+  .option:hover {
+    background-color: #e8f5fe;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #00aced;
+    transition: color 100ms ease-out;
+  }
+  .option {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .option {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+  .text {
+    display: none;
+  }
+  .icon {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 35px;
+  }
+}
+
+@media screen and (max-width: 728px) {
+  .option {
+    display: flex;
+  }
+}
