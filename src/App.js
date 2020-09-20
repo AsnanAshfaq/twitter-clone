@@ -3,6 +3,7 @@ import "./App.css";
 import Feed from "./Feed";
 import FeedHeader from "./FeedHeader";
 import LeftBar from "./LeftBar";
+import Widgets from "./Widgets";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
             <LeftBar />
           </div>
         </div>
-        <div className="col-6 p-0 m-0 mt-4">
+        <div className="col-5 p-0 m-0 mt-4">
           {/* Feed (Middle Section) 👽*/}
           <div class="sticky-top">
             {/* Feed Header  */}
@@ -26,11 +27,11 @@ function App() {
           {/* Feed  */}
           <Feed />
         </div>
-        <div className="col-3">
+        <div className="col-4">
           {/* Right Section 🍔 👽*/}
           <div class="sticky-top">
             {/*makes the content sticky 😜 */}
-            <p>RIght Side Bar</p>
+            <Widgets />
           </div>
         </div>
       </div>
