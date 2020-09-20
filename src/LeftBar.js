@@ -23,7 +23,7 @@ function LeftBar() {
       {/* side bar options 🍔 */}
       <div className="row">
         <div className="col">
-          <LeftBarOptions text="Home" Icon={HomeIcon} />
+          <LeftBarOptions text="Home" Icon={HomeIcon} active/>
         </div>
       </div>
       <div className="row">

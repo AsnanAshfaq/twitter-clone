@@ -5,6 +5,10 @@
   color: #00aced;
   transition: color 100ms ease-out;
 }
+.active {
+  color: #00aced;
+  border-radius: 10px;
+}
 @media screen and (min-width: 729px) {
   .option:hover {
     background-color: #e8f5fe;
