@@ -27,9 +27,9 @@ function PostTweeted({ displayName, userName, verified, avatar, text, image }) {
           <p>{text}</p>
         </div>
       </div>
-      <div className="row d-flex justify-content-center">
-        <div className="col">
-          <img src={image} className="img-fluid img-border" alt="" />
+      <div className="row">
+        <div className="col  d-flex justify-content-center">
+          <img src={image} className="img-fluid img-border" alt="Post Image" />
         </div>
       </div>
       {/* footer 🦶 */}

@@ -1,42 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Feed.css";
 import PostTweeted from "./PostTweeted";
 
+import db from "./firebase";
 function Feed() {
+  const [Posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    // get the document from the post collection 💯
+    db.collection("posts").onSnapshot((snapshot) => {
+      setPosts(snapshot.docs.map((posts) => posts.data()));
+    });
+  }, []);
   return (
     <div>
-      <PostTweeted
-        displayName="sherdil_qureshi"
-        userName="Shaykh Tornado😎"
-        verified
-        avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTUWPye3xhwjdoUQtbIb1Jl4pHBrorU822E-g&usqp=CAU"
-        text="This is the testing post "
-        image="https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
-      />
-      <PostTweeted
-        displayName="sherdil_qureshi"
-        userName="Shaykh Tornado😎"
-        verified
-        avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTUWPye3xhwjdoUQtbIb1Jl4pHBrorU822E-g&usqp=CAU"
-        text="This is the testing post "
-        image="https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
-      />
-      <PostTweeted
-        displayName="sherdil_qureshi"
-        userName="Shaykh Tornado😎"
-        verified
-        avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTUWPye3xhwjdoUQtbIb1Jl4pHBrorU822E-g&usqp=CAU"
-        text="This is the testing post "
-        image="https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
-      />
-      <PostTweeted
-        displayName="Asnan Ashfaq"
-        userName="shanay_ash"
-        verified
-        avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyRv6kXqEBYI30ZX3LY6hdhyg_nIIPA2AajA&usqp=CAU"
-        text="This is the testing post "
-        image="https://image-cdn.essentiallysports.com/wp-content/uploads/20200803203954/skysports-roger-federer-tennis_4762607-1600x900-1-1.jpg"
-      />
+      {Posts.map((post) => (
+        <PostTweeted
+          displayName={post.displayName}
+          userName={post.userName}
+          verified={post.verified}
+          avatar={post.avatar}
+          text={post.text}
+          image={post.image}
+        />
+      ))}
     </div>
   );
 }
