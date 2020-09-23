@@ -28,3 +28,6 @@
   border-radius: 20px;
   cursor: pointer;
 }
+.badge:hover{
+  cursor: pointer;
+}
