@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Badge } from "@material-ui/core";
 import "./Feed.css";
+import { useHistory } from "react-router-dom";
 import { db, storage } from "./firebase";
 import { useStateValue } from "./StateProvider";
 
@@ -12,9 +13,12 @@ function FeedHeader() {
   // reference for image uploading input badge 🔺
   const imageRef = useRef(null);
 
+  const History = useHistory();
+
   // global state 💯
   const [{ user }] = useStateValue();
 
+  // find the user in the database 👼 🥉
   const findUser = async () => {
     const snapShot = await db.collection("users").get();
 
@@ -23,65 +27,79 @@ function FeedHeader() {
       // get the data of the respective user from the cloud database 🥇
 
       if (currentDocument.uid == user.uid) {
-        console.log(currentDocument.uid);
         return doc.id;
       }
     });
     return userDocument;
   };
 
+  // set image of the user in the database 🎱💡
   const setUserImageURL = async (link) => {
     const userDocument = await findUser();
-
-    if (userDocument[0] != null || userDocument[0] != undefined) {
+    const document = userDocument[0] || userDocument[1];
+    if (document != null || document != undefined) {
       db.collection("users")
-        .doc(userDocument[0])
+        .doc(document)
         .update({
           imageURL: link,
         })
         .then(() => {
           setUserImage(link);
+          console.log(link)
+          // reload the page to see the change
+          console.log("loading page");
+          History.go(0);
         });
     } else {
       setUserImage("");
     }
   };
 
+  // get the image url of the user from the database 🤗 🙆
   const getImageURL = async (userDocument) => {
-    console.log(userDocument);
-    const user = await db.collection("users").doc(userDocument[0]).get();
+    const document = userDocument[0] || userDocument[1];
+    const user = await db.collection("users").doc(document).get();
     return user.data().imageURL;
   };
+
+  // use useEffect 🧑 🦕
   useEffect(() => {
     async function userImageURL() {
       const userDocument = await findUser();
       const userImage = await getImageURL(userDocument);
+      
       setUserImage(userImage);
     }
     // only call this method if user is signed in or if the user global state is not empty
     if (Object.keys(user).length > 0) {
       userImageURL();
     } else {
-      setUserImage('');
+      console.log("user is not signed in");
+      setUserImage("");
     }
   }, [UserImage, user]);
 
+  // add post in the database 🏟️ 😲
   const addPost = (e) => {
     e.preventDefault();
-    db.collection("posts").add({
-      displayName: "Asnan Ashfaq",
-      avatar:
-        "https://scontent.fkhi11-1.fna.fbcdn.net/v/t1.0-9/95260674_2556673724590700_5847535705068142592_n.jpg?_nc_cat=110&_nc_sid=85a577&_nc_eui2=AeFiRRsHNV54VEgiUYuRAKbChzk7UcgGVvyHOTtRyAZW_GRbwC3kA0cf6z_pHq1Qd71FS3MNYPDPT8ur3Yx3T_46&_nc_ohc=GQoUYoCQNQcAX-r6z18&_nc_ht=scontent.fkhi11-1.fna&oh=96f70b15781d5cd5ee2ebb3f8fc076c9&oe=5F8B91F2",
-      image: PostImage,
-      text: PostText,
-      userName: "shanay_ash",
-      verified: true,
-    });
+    // dont add the post if tweet is empty
+    if (PostText.trim().length == 0) {
+      alert("can't post an empty tweet");
+    } else if (Object.keys(user).length == 0) {
+      alert("please sign in first");
+    } else {
+      db.collection("posts").add({
+        userID: user.uid,
+        image: PostImage,
+        text: PostText,
+      });
+    }
 
     setPostImage("");
     setPostText("");
   };
 
+  // update the user image 💨 🗡️ 🥪
   const updateImage = (e) => {
     // get the file name first
     const fileName = e.target.files[0].name;
@@ -168,8 +186,8 @@ function FeedHeader() {
                 style={{ cursor: "pointer" }}
                 onClick={(e) => imageRef.current.click()}
               >
-                <Avatar className="h-100 w-100 img-fluid" src={UserImage} />
-
+                <Avatar className="h-100 w-100 img-fluid" src={UserImage}  style={{borderRadius:'50%'}}  />
+                {/* <img src={UserImage} className="img-fluid w-100 h-100" style={{borderRadius:'45%'}}  alt=""/> */}
                 <input
                   type="file"
                   ref={imageRef}

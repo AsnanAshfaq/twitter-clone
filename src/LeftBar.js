@@ -22,8 +22,7 @@ import { useStateValue } from "./StateProvider";
 function LeftBar() {
   // global state
   const [{ user }, dispatch] = useStateValue();
-
-  console.log(user)
+  
   // sign out functionality 💯
   const signout = (e) => {
     e.preventDefault();

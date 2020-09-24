@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./Feed.css";
 import PostTweeted from "./PostTweeted";
 import FlipMove from "react-flip-move";
+// loader
+import Loader from "react-loader-spinner";
 
 import { db } from "./firebase";
 import FeedHeader from "./FeedHeader";
 function Feed() {
   const [Posts, setPosts] = useState([]);
+  const [IsLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // get the document from the post collection 💯
@@ -19,6 +22,8 @@ function Feed() {
           },
         ])
       );
+      // set loading to false
+      setIsLoading(false);
     });
   }, []);
   return (
@@ -29,19 +34,31 @@ function Feed() {
           <FeedHeader />
         </div>
       </div>
-      <FlipMove>
-        {Posts.map((Post) => (
-          <PostTweeted
-            key={Post[0].id}
-            displayName={Post[0].data.displayName}
-            userName={Post[0].data.userName}
-            verified={Post[0].data.verified}
-            avatar={Post[0].data.avatar}
-            text={Post[0].data.text}
-            image={Post[0].data.image}
-          />
-        ))}
-      </FlipMove>
+      {/* if it we are getting the data till then show the loader  */}
+      {IsLoading ? (
+        <div className="row mt-4 d-flex justify-content-center align-items-center">
+          <div className="col d-flex justify-content-center align-items-center">
+            <Loader
+              type="Rings"
+              color="#00aced"
+              className="d-flex justify-content-center align-items-center "
+              height="100"
+              width="100"
+            />
+          </div>
+        </div>
+      ) : (
+        <FlipMove>
+          {Posts.map((Post) => (
+            <PostTweeted
+              key={Post[0].data.userID}
+              userID={Post[0].data.userID}
+              text={Post[0].data.text}
+              image={Post[0].data.image}
+            />
+          ))}
+        </FlipMove>
+      )}
     </div>
   );
 }

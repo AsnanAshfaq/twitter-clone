@@ -37,10 +37,10 @@ function App() {
           dispatch({
             type: "ADD_USER",
             user: {
-              Name: data[0].Name,
-              UserName: data[0].UserName,
-              imageURL: data[0].imageURL,
-              uid: data[0].uid,
+              Name: data[0]?.Name || data[1]?.Name,
+              UserName: data[0]?.UserName || data[1]?.UserName,
+              imageURL: data[0]?.imageURL || data[1]?.imageURL,
+              uid: data[0]?.uid || data[1]?.uid,
             },
           });
 
@@ -61,18 +61,15 @@ function App() {
   return (
     <div>
       {Loading ? (
-        <div className="container-fluid d-flex justif-content-center w-100 h-100">
-          <div className="row d-flex justif-content-center ">
-            <div className="col d-flex justif-content-center ">
-              <div className="d-flex justif-content-center">
-                <Loader
-                  type="TailSpin"
-                  color="#00aced"
-                  height="100"
-                  width="100"
-                />
-              </div>
-            </div>
+        <div className="row mt-4 d-flex justify-content-center align-items-center">
+          <div className="col d-flex justify-content-center align-items-center">
+            <Loader
+              type="Rings"
+              color="#00aced"
+              className="d-flex justify-content-center align-items-center "
+              height="100"
+              width="100"
+            />
           </div>
         </div>
       ) : (
