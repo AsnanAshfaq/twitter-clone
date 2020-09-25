@@ -7,17 +7,16 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import { db } from "./firebase";
-import {useStateValue} from './StateProvider';
+import { useStateValue } from "./StateProvider";
 // loader
 import Loader from "react-loader-spinner";
-
 
 const PostTweeted = forwardRef(({ userID, text, image }, ref) => {
   const [userInfo, setuserInfo] = useState({});
   const [IsLoading, setIsLoading] = useState(true);
 
   // global state 😞
-  const [{user}] = useStateValue()
+  const [{ user }] = useStateValue();
 
   useEffect(() => {
     // get user info based on the userID 💯
@@ -40,11 +39,7 @@ const PostTweeted = forwardRef(({ userID, text, image }, ref) => {
   return (
     <div>
       {IsLoading ? (
-        <div className="row mt-4 d-flex justify-content-center align-items-center">
-          <div className="col d-flex justify-content-center align-items-center">
-          <Loader type="Rings" color="#00aced" className="d-flex justify-content-center align-items-center " height="100" width="100" />
-          </div>
-        </div>
+        <div></div>
       ) : (
         <div
           className="post__tweeted p-0 border-bottom border-top border-left border-right "

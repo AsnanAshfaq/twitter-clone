@@ -1,9 +1,11 @@
 import React from "react";
 import LeftBarOptions from "./LeftBarOptions";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./LeftBar.css";
 // material ui icons
 import TwitterIcon from "@material-ui/icons/Twitter";
 import HomeIcon from "@material-ui/icons/Home";
+import { Avatar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
@@ -22,7 +24,7 @@ import { useStateValue } from "./StateProvider";
 function LeftBar() {
   // global state
   const [{ user }, dispatch] = useStateValue();
-  
+
   // sign out functionality 💯
   const signout = (e) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ function LeftBar() {
         // empty the user in the context api 🥊
         dispatch({
           type: "REMOVE_USER",
-          user : {}
+          user: {},
         });
       })
       .catch((err) => {
@@ -122,6 +124,41 @@ function LeftBar() {
                     <LeftBarOptions text="Sign Up" Icon={AccountBoxIcon} />
                   </div>
                 </Link>
+              )}
+
+              {/* if user is signed in then show its name and user name  */}
+              {Object.keys(user).length > 0 && (
+                <div className="row m-0 p-0">
+                  <div className="col-xs-4 col-lg-3 col-md col-sm m-0 p-0">
+                    <Avatar
+                      className=" img-fluid"
+                      src={user.imageURL ? user.imageURL : 'https://www.iconfinder.com/data/icons/avatars-with-emotions-boys-avatars-with-different-/283/male-076-512.png'}
+                      style={{ borderRadius: "50%" }}
+                    />
+                  </div>
+                  <div className="col-xs-8 col-lg-9 col-md col-sm d-flex flex-column justify-content-start">
+                    <div className="row d-flex flex-column">
+                      <div className="col-xs-6 col-lg-6 col-md-6 col-sm m-0 p-0">
+                        <p
+                          className="name"
+                          style={{ fontSize: 17, color: "#00aced" }}
+                        >
+                          {user?.Name}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-xs-6 col-lg-6 col-md-6 col-sm m-0 p-0 d-flex ">
+                        <p
+                          className="name"
+                          style={{ fontSize: 12, color: "#00aced" }}
+                        >
+                          @{user?.UserName}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>

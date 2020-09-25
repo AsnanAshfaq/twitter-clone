@@ -3,10 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import { auth } from "../firebase";
 import { useStateValue } from "../StateProvider";
+// loader
+import Loader from "react-loader-spinner";
 
 function SignIn() {
   // global state
-  const [{user}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+  const [IsLoading, setIsLoading] = useState(false);
 
   // local states
   const [Email, setEmail] = useState("");
@@ -17,15 +20,18 @@ function SignIn() {
   const userSignIn = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     auth
       .signInWithEmailAndPassword(Email, Password)
       .then((user) => {
-        // set the user uid in the context api
-        
+        // set the loading to false
+        setIsLoading(false);
         // console.log(user)
         History.replace("/");
       })
       .catch((err) => {
+        setIsLoading(false)
         alert(err.message);
       });
   };
@@ -94,7 +100,20 @@ function SignIn() {
                 disabled={!Email || !Password}
                 onClick={userSignIn}
               >
-                <h5>Sign In</h5>
+                <h5>
+                  {" "}
+                  {IsLoading ? (
+                    <Loader
+                      type="Rings"
+                      color="#00aced"
+                      className="d-flex justify-content-center align-items-center "
+                      height="30"
+                      width="30"
+                    />
+                  ) : (
+                    "Sign In"
+                  )}
+                </h5>
               </button>
             </div>
             <div className="col-xs-4 col-lg-4 col-md-4 col-2"></div>

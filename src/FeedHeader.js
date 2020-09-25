@@ -25,7 +25,6 @@ function FeedHeader() {
     const userDocument = await snapShot.docs.map((doc) => {
       const currentDocument = doc.data();
       // get the data of the respective user from the cloud database 🥇
-
       if (currentDocument.uid == user.uid) {
         return doc.id;
       }
@@ -45,7 +44,7 @@ function FeedHeader() {
         })
         .then(() => {
           setUserImage(link);
-          console.log(link)
+          console.log(link);
           // reload the page to see the change
           console.log("loading page");
           History.go(0);
@@ -67,7 +66,7 @@ function FeedHeader() {
     async function userImageURL() {
       const userDocument = await findUser();
       const userImage = await getImageURL(userDocument);
-      
+
       setUserImage(userImage);
     }
     // only call this method if user is signed in or if the user global state is not empty
@@ -150,7 +149,7 @@ function FeedHeader() {
   return (
     <div>
       <div className="row card d-flex flex-column border-0 ">
-        <div className="col border-bottom p-1">
+        <div className="col-xl-2 col-lg-2 col-md-4 col-4 mt-2  border-bottom p-1">
           <h5 style={{ fontSize: 22, color: "#00aced" }}>HOME</h5>
         </div>
         <div className="row d-flex flex-row">
@@ -186,8 +185,11 @@ function FeedHeader() {
                 style={{ cursor: "pointer" }}
                 onClick={(e) => imageRef.current.click()}
               >
-                <Avatar className="h-100 w-100 img-fluid" src={UserImage}  style={{borderRadius:'50%'}}  />
-                {/* <img src={UserImage} className="img-fluid w-100 h-100" style={{borderRadius:'45%'}}  alt=""/> */}
+                <Avatar
+                  className="h-100 w-100 img-fluid"
+                  src={UserImage ? UserImage : 'https://www.iconfinder.com/data/icons/avatars-with-emotions-boys-avatars-with-different-/283/male-076-512.png'}
+                  style={{ borderRadius: "50%" }}
+                />
                 <input
                   type="file"
                   ref={imageRef}
